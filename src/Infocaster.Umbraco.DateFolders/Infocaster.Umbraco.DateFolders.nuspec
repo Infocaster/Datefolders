@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Infocaster.Umbraco.DateFolders</id>
+        <version>3.0.0</version>
+        <title>Infocaster DateFolders</title>
+        <authors>Infocaster</authors>
+        <owners>Infocaster</owners>
+        <projectUrl>https://bitbucket.org/infocaster/sample-nuget</projectUrl>
+        <iconUrl>https://infocaster.net/favicon.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>DateFolders for Umbraco</description>
+        <releaseNotes/>
+        <copyright>Infocaster Copyright 2017</copyright>
+        <tags>infocaster datefolders umbraco</tags>
+        <dependencies>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Release\Infocaster.Umbraco.DateFolders.dll" target="lib" />
+    </files>
+</package>
