@@ -1,0 +1,11 @@
+﻿.node-name-sync a.lock {
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin-left: 5px;
+    color: #4fa23c;
+    line-height: 2rem;
+}
+
+    .node-name-sync a.lock.unlocked {
+        color: #ee5f5b;
+    }

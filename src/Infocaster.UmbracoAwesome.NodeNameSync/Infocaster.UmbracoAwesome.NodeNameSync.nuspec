@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Infocaster.Umbraco.NodeNameSync</id>
+        <version>1.0.0</version>
+        <title>Infocaster NodeNameSync</title>
+        <authors>Infocaster</authors>
+        <owners>Infocaster</owners>
+        <projectUrl></projectUrl>
+        <iconUrl>https://infocaster.net/favicon.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>NodeNameSync for Umbraco</description>
+        <releaseNotes/>
+        <copyright>Infocaster Copyright 2021</copyright>
+        <tags>infocaster nodenamesync umbraco</tags>
+        <dependencies>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="App_plugins\Infocaster.NodeNameSync\**\*" target="content\App_plugins\Infocaster.NodeNameSync" />
+    </files>
+</package>
