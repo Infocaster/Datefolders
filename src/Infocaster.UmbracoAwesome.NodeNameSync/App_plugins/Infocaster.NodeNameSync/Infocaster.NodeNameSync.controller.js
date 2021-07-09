@@ -1,32 +1,58 @@
 ﻿angular.module("umbraco").controller("Infocaster.NodeNameSync", function ($scope, editorState) {
     var vm = this;
     var nameChangedLast = true;
-    vm.inSync = editorState.getCurrent().name === $scope.model.value;
+    $scope.editorState = editorState;
+    $scope.editorStateCurrentCulture = $scope.editorState.current.variants.find(element => element.active);
+
+    vm.inSync = $scope.editorStateCurrentCulture.name === $scope.model.value;
+    $scope.syncField = {
+        view: 'textbox',
+        config: {},
+        value: $scope.model.value
+    };
+
+    $scope.$watch(function () { return $scope.syncField.value; }, (value) => {
+        $scope.fromModelToName(value);
+    });
+
+    $scope.$watch(function () {
+        return $scope.editorState.current.variants.find(element => element.active).name;
+    }, (value) => {
+        $scope.fromNameToModel(value);
+    });
 
     // From node name to model
-    var fromNameToModel = function(newValue) {
+    $scope.fromNameToModel = function (newValue) {
+
         if (vm.inSync) {
-            $scope.model.value = newValue;
+            $scope.syncField.value = newValue;
+            $scope.updateModel();
         }
         nameChangedLast = true;
     };
-    $scope.$watch(function () { return editorState.getCurrent().name; }, fromNameToModel);
 
     // From model to node name
-    var fromModelToName = function(newValue) {
+    $scope.fromModelToName = function (newValue) {
+
         if (vm.inSync) {
-            editorState.getCurrent().name = newValue;
+            $scope.editorStateCurrentCulture.name = newValue;
         }
+
         nameChangedLast = false;
+        $scope.updateModel();
     };
-    $scope.$watch(function () { return $scope.model.value; }, fromModelToName);
 
     vm.toggleSync = function () {
         vm.inSync = !vm.inSync;
+
         if (nameChangedLast) {
-            fromNameToModel(editorState.getCurrent().name);
+            $scope.fromNameToModel($scope.editorStateCurrentCulture.name);
         } else {
-            fromModelToName($scope.model.value);
+            $scope.fromModelToName($scope.model.value);
         }
+    };
+
+    $scope.updateModel = function () {
+        $scope.model.value = $scope.syncField.value;
     };
 });

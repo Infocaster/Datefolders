@@ -1,4 +1,10 @@
-﻿.node-name-sync a.lock {
+﻿.node-name-sync div.umb-property-editor {
+    width: auto;
+    min-width: 580px;
+    float: left;
+}
+
+.node-name-sync a.lock {
     text-decoration: none;
     font-size: 1.5rem;
     margin-left: 5px;
@@ -6,6 +12,10 @@
     line-height: 2rem;
 }
 
-    .node-name-sync a.lock.unlocked {
-        color: #ee5f5b;
-    }
+.node-name-sync a.lock.unlocked {
+    color: #ee5f5b;
+}
+
+.node-name-sync a.lock i {
+    line-height: 2rem;
+}
