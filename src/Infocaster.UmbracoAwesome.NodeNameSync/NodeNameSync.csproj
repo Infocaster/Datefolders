@@ -34,6 +34,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="App_plugins\Infocaster.NodeNameSync\package.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_plugins\Infocaster.NodeNameSync\Infocaster.NodeNameSync.controller.js" />
+    <Content Include="App_plugins\Infocaster.NodeNameSync\Infocaster.NodeNameSync.css" />
+    <Content Include="App_plugins\Infocaster.NodeNameSync\Infocaster.NodeNameSync.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
