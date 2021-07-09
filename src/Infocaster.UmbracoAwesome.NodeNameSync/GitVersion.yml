@@ -7,7 +7,6 @@ branches:
     tag: beta
   master:
     tag: ''
-    master:
-      regex: ^master$|^main$
+    regex: ^master$|^main$
 ignore:
   sha: []
