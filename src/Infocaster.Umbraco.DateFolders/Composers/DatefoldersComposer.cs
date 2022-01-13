@@ -4,12 +4,6 @@ using Infocaster.Umbraco.DateFolders.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Events;
@@ -191,20 +185,18 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                         // Item already has datefolder as parent
                         if (parent.ContentType.Alias.Equals(_options.FolderDocType))
                         {
+                            monthFolder = parent;
+
                             if (_options.CreateDayFolders)
                             {
                                 dayFolder = parent;
                                 monthFolder = _contentService.GetById(dayFolder.ParentId);
-                                yearFolder = _contentService.GetById(monthFolder.ParentId);
 
                                 dayChanged = date.Day.ToString("00") != dayFolder.Name;
                             }
-                            else
-                            {
-                                monthFolder = parent;
-                                yearFolder = _contentService.GetById(monthFolder.ParentId);
-                            }
-
+                            
+                            yearFolder = _contentService.GetById(monthFolder.ParentId);
+                            
                             // Set item parent to source folder which contains the datefolders for sorting
                             parent = _contentService.GetById(yearFolder.ParentId);
 
@@ -244,11 +236,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                                 _contentService.SaveAndPublish(content);
                             }
 
-                            // Sort all content in folders by date
-                            OrderChildrenByDateProperty(orderParent, _options.OrderByDescending, !string.IsNullOrEmpty(_options.ItemDateProperty) ? _options.ItemDateProperty : null);
-                            
-
-                            // Delete empty folders
+                            // Clean up old folders if empty
                             if (dayFolder is not null)
                             {
                                 ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, dayFolder, _contentService);
@@ -259,6 +247,9 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                                 ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, monthFolder, _contentService);
                             }
 
+                            // Sort all content in folders by date
+                            OrderChildrenByDateProperty(orderParent, _options.OrderByDescending, !string.IsNullOrEmpty(_options.ItemDateProperty) ? _options.ItemDateProperty : null);
+                            
                             // Sort all folders by name
                             OrderChildrenByName(parent, _options.OrderByDescending);
                             OrderChildrenByName(newYearFolder, _options.OrderByDescending);
@@ -271,13 +262,13 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                     else
                     {
                         // Item is created under 'Content' root, which is unsupported
-                        _logger.LogError(new Exception("DateFolders Unsupported Exception"), $"Creating a date folder item under 'Content' root is unsupported");
+                        _logger.LogError("Creating a date folder item under 'Content' root is unsupported");
                     }
                 }
                 else
                 {
                     // Date folder doctype is null
-                    _logger.LogError(new Exception("DateFolders configuration Error"), $"The date folder document type('{_options.FolderDocType}') does not exist");
+                    _logger.LogError("The date folder document type '{folderDocType}' does not exist", _options.FolderDocType);
                 }
             }
         }
