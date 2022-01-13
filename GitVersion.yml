@@ -4,17 +4,17 @@ branches:
   feature:
     tag: alpha
     regex: ^v9/feature/
-    source-branches: [ 'v9/develop' ]
+    source-branches: ['v9/develop']
   develop:
     tag: beta
     regex: ^v9/develop$
-    source-branches: [ ]
+    source-branches: []
   master:
     tag: ''
     regex: ^v9/main$
   hotfix:
     tag: 'beta'
     regex: ^v9/hotfix
-    source-branches: [ 'v9/main' ]
+    source-branches: ['v9/main']
 ignore:
   sha: []
