@@ -1,0 +1,19 @@
+mode: Mainline
+next-version: 9.0.0
+branches:
+  feature:
+    tag: alpha
+    regex: ^v9/feature/
+    source-branches: [ 'v9/develop' ]
+  develop:
+    tag: beta
+    regex: ^v9/develop$
+  master:
+    tag: ''
+    regex: ^v9/main$
+  hotfix:
+    tag: 'beta'
+    regex: ^v9/hotfix
+    source-branches: [ 'v9/main' ]
+ignore:
+  sha: []
