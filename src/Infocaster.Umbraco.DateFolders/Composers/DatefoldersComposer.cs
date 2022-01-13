@@ -4,6 +4,8 @@ using Infocaster.Umbraco.DateFolders.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Events;
@@ -331,7 +333,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         {
             try
             {
-                var allChildren = parent.GetAllChildren(_contentService);
+                var allChildren = parent.GetAllChildren(_contentService); 
 
                 var orderedChildren = (orderByDesc
                     ? allChildren.Where(c => int.TryParse(c.Name, out int i)).OrderByDescending(x => int.Parse(x.Name))
