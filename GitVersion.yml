@@ -5,16 +5,20 @@ branches:
     tag: alpha
     regex: ^v9/feature/
     source-branches: ['v9/develop']
+    is-mainline: false
   develop:
     tag: beta
     regex: ^v9/develop$
     source-branches: []
+    is-mainline: false
   master:
     tag: ''
     regex: ^v9/main$
+    is-mainline: true
   hotfix:
     tag: 'beta'
     regex: ^v9/hotfix
     source-branches: ['v9/main']
+    is-mainline: false
 ignore:
   sha: []
