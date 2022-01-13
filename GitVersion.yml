@@ -8,6 +8,7 @@ branches:
   develop:
     tag: beta
     regex: ^v9/develop$
+    source-branches: [ ]
   master:
     tag: ''
     regex: ^v9/main$
