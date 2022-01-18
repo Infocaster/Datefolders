@@ -1,0 +1,84 @@
+pool:
+  name: Default
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: restore
+    feedsToUse: config
+    nugetConfigPath: nuget.config
+
+- task: gittools.gitversion.gitversion-task.GitVersion@5
+  displayName: GitVersion
+  inputs:
+    configFilePath: GitVersion.yml
+    updateAssemblyInfo: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack'
+  inputs:
+    command: pack
+    packagesToPack: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
+    nobuild: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet push'
+  inputs:
+    command: push
+    publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
+
+
+####
+# Umbraco v8 version pipeline
+####
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
+  inputs:
+    versionSpec: 4.4.1
+  enabled: false
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '$(Parameters.solution)'
+    feedsToUse: config
+    nugetConfigPath: nuget.config
+  enabled: false
+
+- task: VSBuild@1
+  displayName: 'Build solution **\*.sln'
+  inputs:
+    solution: '$(Parameters.solution)'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+  enabled: false
+
+- task: NuGetCommand@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: pack
+    packagesToPack: src/Infocaster.UmbracoAwesome.DateFolders/Infocaster.UmbracoAwesome.DateFolders.nuspec
+    versioningScheme: byEnvVar
+    versionEnvVar: GitVersion.NuGetVersion
+  enabled: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  enabled: false
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
+  enabled: false
+

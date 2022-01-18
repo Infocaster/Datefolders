@@ -166,6 +166,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         {
             foreach (var content in notification.SavedEntities)
             {
+                // Allowed doctypes
                 if (!_options.ItemDocTypes.Contains(content.ContentType.Alias)) continue;
 
                 IContentType folderDocType = _contentTypeService.Get(_options.FolderDocType);
@@ -247,6 +248,11 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                             if (monthFolder is not null)
                             {
                                 ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, monthFolder, _contentService);
+                            }
+
+                            if (yearFolder is not null)
+                            {
+                                ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, yearFolder, _contentService);
                             }
 
                             // Sort all content in folders by date

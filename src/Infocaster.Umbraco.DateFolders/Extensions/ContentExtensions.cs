@@ -9,7 +9,14 @@ namespace Infocaster.Umbraco.DateFolders.Extensions
         public static IEnumerable<IContent> GetAllChildren(this IContent item, IContentService contentService)
         {
             int childCount = contentService.CountChildren(item.Id);
-            return contentService.GetPagedChildren(item.Id, 0, childCount, out long totalChildren);
+            if (childCount > 0)
+            {
+                return contentService.GetPagedChildren(item.Id, 0, childCount, out long totalChildren);
+            }
+            else
+            {
+                return new List<IContent>();
+            }
         }
     }
 }
