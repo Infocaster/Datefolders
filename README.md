@@ -1,5 +1,5 @@
 # Datefolders
-This package creates Datefolders (year/month(/day)) for the specified doctype for Umbraco 8.2.x+. For older versions please use v2
+This package creates Datefolders (year/month(/day)) for the specified doctype for Umbraco 9. For umbraco 8 use v3, for older versions please use v2
 
 # Behavior
 - When you create a document with doctype "itemDocType", this package will automatically create year/month/day folders for it
@@ -8,14 +8,14 @@ This package creates Datefolders (year/month(/day)) for the specified doctype fo
 - Orders the items in the year, month and dayfolders by "itemDateProperty" with every action
 
 ## Configuration
-Add these keys/values to your appSettings section in the web.config:
+Add these keys/values to your appsettings.config in a new section:
 
-Key: "datefolders:ItemDocType" - the doctype alias to create datefolders for (e.g. "newsItem") - comma separated values are allowed for multiple doctype aliases 
-
-Key: "datefolders:ItemDateProperty" - the property of the itemDocType to read the date from (e.g. "startDate") (don't add this key if you just want to use the document's create date)
-
-Key: "datefolders:DateFolderDocType" - the doctype to use for creating the year/month/day folders (e.g "DateFolder")
-
-Key: "datefolders:CreateDayFolders" - boolean indicating whether or not day folders should be created
-
-Key: "datefolders:OrderByDecending"  - boolean indicating sort order for date folders (default: false)
+<pre>
+"DateFolders": {
+    "ItemDateProperty":  "",            // the property of the itemDocType to read the date from (e.g. "startDate") (don't add this key if you just want to use the document's create date)
+    "CreateDayFolders": false,          // boolean indicating whether or not day folders should be created
+    "OrderByDescending": true,          // boolean indicating sort order for date folders (default: false)
+    "FolderDocType": "dateFolder",      // the doctype to use for creating the year/month/day folders (e.g "DateFolder")
+    "ItemDocTypes": [ "contentPage" ]   // the doctype alias to create datefolders for (e.g. "newsItem") - multiple doctype aliases are allowed
+}
+</pre>
