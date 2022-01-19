@@ -1,42 +1,73 @@
+trigger:
+- v9/main
+- v9/develop
+- v9/release/*
+- v9/hotfix
+
 pool:
   name: Default
 
 variables: 
   BuildConfiguration: 'release'
 
-steps:
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet restore'
-  inputs:
-    command: restore
-    feedsToUse: config
-    nugetConfigPath: nuget.config
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - job: build
+    displayName: Build
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: restore
+        feedsToUse: config
+        nugetConfigPath: nuget.config
 
-- task: gittools.gitversion.gitversion-task.GitVersion@5
-  displayName: GitVersion
-  inputs:
-    configFilePath: GitVersion.yml
-    updateAssemblyInfo: true
+    - task: gittools.gitversion.gitversion-task.GitVersion@5
+      displayName: GitVersion
+      inputs:
+        configFilePath: GitVersion.yml
+        updateAssemblyInfo: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
-  inputs:
-    projects: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
-    arguments: '--configuration $(BuildConfiguration)  /p:Version=$(GitVersion.NuGetVersion)'
-    versioningScheme: byBuildNumber
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        projects: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
+        arguments: '--configuration $(BuildConfiguration)  /p:Version=$(GitVersion.NuGetVersion)'
+        versioningScheme: byBuildNumber
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet pack'
-  inputs:
-    command: pack
-    packagesToPack: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
-    nobuild: true
-    versioningScheme: byEnvVar
-    versionEnvVar: GitVersion.NuGetVersion
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack'
+      inputs:
+        command: pack
+        packagesToPack: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
+        nobuild: true
+        versioningScheme: byEnvVar
+        versionEnvVar: GitVersion.NuGetVersion
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet push'
-  inputs:
-    command: push
-    publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
-    versioningScheme: byBuildNumber
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish build artifacts'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: release
+  displayName: Release
+  dependsOn: build
+  condition: and(succeeded(), in(variables['build.sourcebranch'], 'refs/heads/v9/main', 'refs/heads/v9/develop'))
+  jobs:
+  - job: release
+    displayName: Push to artifacts
+    steps:
+    - checkout: none
+    - download: current
+      patterns: '**/*.nupkg'
+      displayName: Download build artifact
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet push'
+      inputs:
+        command: push
+        publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
+        versioningScheme: byBuildNumber
