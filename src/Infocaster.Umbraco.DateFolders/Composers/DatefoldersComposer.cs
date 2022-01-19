@@ -249,6 +249,11 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                                 ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, monthFolder, _contentService);
                             }
 
+                            if (yearFolder is not null)
+                            {
+                                ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, yearFolder, _contentService);
+                            }
+
                             // Sort all content in folders by date
                             OrderChildrenByDateProperty(orderParent, _options.OrderByDescending, !string.IsNullOrEmpty(_options.ItemDateProperty) ? _options.ItemDateProperty : null);
                             
