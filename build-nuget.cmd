@@ -7,7 +7,7 @@ IF [%1] == [] GOTO version_not_set
 
 echo BUILDING PACKAGES
 
-%nuget% pack src\Infocaster.Umbraco.DateFolders\Infocaster.Umbraco.DateFolders.nuspec -outputdirectory %output% -version %1
+%nuget% pack src\Infocaster.UmbracoAwesome.DateFolders\Infocaster.UmbracoAwesome.DateFolders.nuspec -outputdirectory %output% -version %1
 
 GOTO :eof
 

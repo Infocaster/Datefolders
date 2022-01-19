@@ -10,7 +10,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Core.Services.Implement;
 
-namespace Infocaster.Umbraco.DateFolders.Composers
+namespace Infocaster.UmbracoAwesome.DateFolders.Composers
 {
     public class DatefoldersComposer : IUserComposer
     {
@@ -32,7 +32,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         private readonly ILogger _logger;
         private readonly IContentService _contentService;
         private readonly IContentTypeService _contentTypeService;
-
+        
         public DatefoldersComponent(ILogger logger, IContentService contentService, IContentTypeService contentTypeService)
         {
             _logger = logger;
@@ -45,7 +45,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                 _itemDateProperty = ConfigurationManager.AppSettings["datefolders:ItemDateProperty"];
                 _dateFolderDocType = ConfigurationManager.AppSettings["datefolders:DateFolderDocType"];
                 var createDayFoldersString = ConfigurationManager.AppSettings["datefolders:CreateDayFolders"];
-                var orderByDescendingString = ConfigurationManager.AppSettings["datefolders:OrderByDecending"];
+                var orderByDescendingString = ConfigurationManager.AppSettings["datefolders:OrderByDescending"];
 
                 if (!string.IsNullOrEmpty(createDayFoldersString))
                 {
@@ -68,6 +68,8 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         public void Initialize()
         {
             if (_itemDocType == null || _itemDocType.Length <= 0 || string.IsNullOrEmpty(_dateFolderDocType)) return;
+
+            CreateDateFolder();
 
             ContentService.Saved += ContentService_Saved;            
             ContentService.Trashing += ContentService_Trashing;
@@ -437,6 +439,37 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         void LogError(Exception ex, string header)
         {
             _logger.Error<DatefoldersComponent>(ex, header);
+        }
+
+        private void CreateDateFolder()
+        {
+            var folderType =_contentTypeService.Get("folders");
+            if (folderType == null)
+            {
+                folderType = new ContentType(-1);
+                folderType.Alias = "folders";
+                folderType.Name = "Folders";
+                folderType.Description = "";
+                folderType.AllowedAsRoot = true;
+                folderType.SortOrder = 1;
+                folderType.CreatorId = 0;
+                folderType.Icon = "icon-folders";
+                _contentTypeService.Save(folderType);
+            }
+        
+            var docType = _contentTypeService.Get("dateFolder");
+            if (docType == null)
+            {
+                docType = new ContentType(folderType.Id);
+                docType.Alias = "dateFolder";
+                docType.Name = "Date Folder";
+                docType.Description = "";
+                docType.AllowedAsRoot = true;
+                docType.SortOrder = 1;
+                docType.CreatorId = 0;
+                docType.Icon = "icon-calendar-alt";
+                _contentTypeService.Save(docType);
+            }
         }
     }
 }

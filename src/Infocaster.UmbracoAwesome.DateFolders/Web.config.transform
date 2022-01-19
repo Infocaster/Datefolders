@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <appSettings>
+    <add key="datefolders:ItemDocType" value="newsItem" />
+    <add key="datefolders:ItemDateProperty" value="publicationDate" />
+    <add key="datefolders:DateFolderDocType" value="dateFolder" />
+    <add key="datefolders:CreateDayFolders" value="False" />
+    <add key="datefolders:OrderByDescending" value="False" />
+  </appSettings>
+</configuration>

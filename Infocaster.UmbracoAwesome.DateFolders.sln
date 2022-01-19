@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infocaster.Umbraco.DateFolders", "src\Infocaster.Umbraco.DateFolders\Infocaster.Umbraco.DateFolders.csproj", "{B7ECD8B3-CAEC-4AC5-A0A1-54AAF1FC0E86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infocaster.UmbracoAwesome.DateFolders", "src\Infocaster.UmbracoAwesome.DateFolders\Infocaster.UmbracoAwesome.DateFolders.csproj", "{B7ECD8B3-CAEC-4AC5-A0A1-54AAF1FC0E86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E99C0A35-AE5D-4B24-8B08-13364570FBA3}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
+		GitVersion.yml = GitVersion.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D361FF4B-A004-4DF6-8693-4B21AF77ED06}
 	EndGlobalSection
 EndGlobal

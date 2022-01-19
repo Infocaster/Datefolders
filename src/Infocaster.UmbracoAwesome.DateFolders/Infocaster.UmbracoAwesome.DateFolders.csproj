@@ -7,8 +7,8 @@
     <ProjectGuid>{B7ECD8B3-CAEC-4AC5-A0A1-54AAF1FC0E86}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infocaster.Umbraco.DateFolders</RootNamespace>
-    <AssemblyName>Infocaster.Umbraco.DateFolders</AssemblyName>
+    <RootNamespace>Infocaster.UmbracoAwesome.DateFolders</RootNamespace>
+    <AssemblyName>Infocaster.UmbracoAwesome.DateFolders</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -146,7 +146,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="Web.config.transform" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

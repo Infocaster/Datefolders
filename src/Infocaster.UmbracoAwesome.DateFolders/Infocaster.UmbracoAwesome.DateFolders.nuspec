@@ -6,7 +6,7 @@
         <title>Infocaster DateFolders</title>
         <authors>Infocaster</authors>
         <owners>Infocaster</owners>
-        <projectUrl>https://bitbucket.org/infocaster/sample-nuget</projectUrl>
+        <projectUrl>https://bitbucket.org/infocaster/datefolders-umbracoawesome</projectUrl>
         <iconUrl>https://infocaster.net/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>DateFolders for Umbraco</description>
@@ -17,6 +17,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="bin\Release\Infocaster.Umbraco.DateFolders.dll" target="lib" />
+        <file src="bin\Release\Infocaster.UmbracoAwesome.DateFolders.dll" target="lib" />
+        <file src="*.transform" target="content" />
     </files>
 </package>
