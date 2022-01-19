@@ -8,7 +8,7 @@ This package creates Datefolders (year/month(/day)) for the specified doctype fo
 - Orders the items in the year, month and dayfolders by "itemDateProperty" with every action
 
 ## Configuration
-Add these keys/values to your appsettings.config in a new section:
+Add these keys/values to your appsettings.json in a new section:
 
 <pre>
 "DateFolders": {

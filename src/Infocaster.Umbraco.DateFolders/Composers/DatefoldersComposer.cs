@@ -166,7 +166,6 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         {
             foreach (var content in notification.SavedEntities)
             {
-                // Allowed doctypes
                 if (!_options.ItemDocTypes.Contains(content.ContentType.Alias)) continue;
 
                 IContentType folderDocType = _contentTypeService.Get(_options.FolderDocType);
