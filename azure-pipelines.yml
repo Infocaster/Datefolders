@@ -1,6 +1,9 @@
 pool:
   name: Default
 
+variables:
+  GitVersion.NuGetVersion: ''
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
@@ -19,7 +22,7 @@ steps:
   displayName: 'dotnet build'
   inputs:
     projects: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)  -p:Version=$(GitVersion.NuGetVersion)'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet pack'
@@ -27,6 +30,8 @@ steps:
     command: pack
     packagesToPack: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
     nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: 'GitVersion.NuGetVersion'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet push'
