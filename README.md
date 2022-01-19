@@ -9,7 +9,7 @@ This package creates Datefolders (year/month(/day)) for the specified doctype fo
 
 ## Configuration
 Add these keys/values to your appsettings.json in a new section:
-
+ 
 <pre>
 "DateFolders": {
     "ItemDateProperty":  "",            // the property of the itemDocType to read the date from (e.g. "startDate") (don't add this key if you just want to use the document's create date)
