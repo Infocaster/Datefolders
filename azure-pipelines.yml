@@ -60,6 +60,8 @@ stages:
   jobs:
   - job: release
     displayName: Push to artifacts
+    workspace:
+      clean: all
     steps:
     - checkout: none
 
@@ -69,7 +71,6 @@ stages:
         downloadType: 'single' # Choose whether to download a single artifact or all artifacts of a specific build. Options: single, specific
         artifactName: drop # Required when downloadType == Single
         itemPattern: '**/*.nupkg' # Optional
-        cleanDestinationFolder: true # Optional
 
     - task: DotNetCoreCLI@2
       displayName: 'dotnet push'
