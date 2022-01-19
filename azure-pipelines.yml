@@ -64,18 +64,15 @@ stages:
       clean: all
     steps:
     - checkout: none
-
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current' # Options: current, specific
-        downloadType: 'single' # Choose whether to download a single artifact or all artifacts of a specific build. Options: single, specific
-        artifactName: drop # Required when downloadType == Single
-        itemPattern: '**/*.nupkg' # Optional
-
+    
+    - download: current
+      patterns: '**/*.nupkg'
+      displayName: Download build artifact
+    
     - task: DotNetCoreCLI@2
       displayName: 'dotnet push'
       inputs:
         command: push
         publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
-        packagesToPush: '$(Pipeline.Workspace)/drop/Infocaster.Umbraco.DateFolders*.nupkg'
-        allowPackageConflicts: true
+        versioningScheme: byBuildNumber
+        packagesToPush: '$(Pipeline.Workspace)/**/Infocaster.Umbraco.DateFolders*.nupkg'
