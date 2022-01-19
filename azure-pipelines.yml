@@ -61,10 +61,6 @@ stages:
   - job: release
     displayName: Push to artifacts
     steps:
-    - checkout: none
-    - download: current
-      patterns: '**/*.nupkg'
-      displayName: Download build artifact
     - task: DotNetCoreCLI@2
       displayName: 'dotnet push'
       inputs:
