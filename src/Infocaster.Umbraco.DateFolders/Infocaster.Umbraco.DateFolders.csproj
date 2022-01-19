@@ -27,10 +27,14 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+	  <None Include="..\..\ReadMe.txt">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Core" Version="9.2.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
