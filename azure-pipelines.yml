@@ -1,6 +1,9 @@
 pool:
   name: Default
 
+variables: 
+  BuildConfiguration: 'release'
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
@@ -19,7 +22,7 @@ steps:
   displayName: 'dotnet build'
   inputs:
     projects: src/Infocaster.Umbraco.DateFolders/Infocaster.Umbraco.DateFolders.csproj
-    arguments: '--configuration $(buildConfiguration)  -p:Version=$(GitVersion.NuGetVersion)'
+    arguments: '--configuration $(BuildConfiguration)  /p:Version=$(GitVersion.NuGetVersion)'
     versioningScheme: byBuildNumber
 
 - task: DotNetCoreCLI@2
