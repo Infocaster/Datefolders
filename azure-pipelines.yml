@@ -71,4 +71,4 @@ stages:
         command: push
         publishVstsFeed: '3356baca-d7d8-497c-a5fa-ebd93f79f7c7'
         versioningScheme: byBuildNumber
-        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+        packagesToPush: '$(Pipeline.Workspace)/**/Infocaster.Umbraco.DateFolders*.nupkg'
