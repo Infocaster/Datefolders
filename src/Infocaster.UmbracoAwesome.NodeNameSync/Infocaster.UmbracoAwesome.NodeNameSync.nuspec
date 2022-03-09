@@ -6,7 +6,7 @@
         <title>Infocaster NodeNameSync</title>
         <authors>Infocaster</authors>
         <owners>Infocaster</owners>
-        <projectUrl>https://infocaster.net</projectUrl>
+        <projectUrl></projectUrl>
         <iconUrl>https://infocaster.net/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>NodeNameSync for Umbraco</description>
