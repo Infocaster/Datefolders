@@ -1,39 +1,55 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0A63E725-4498-4224-9B2D-EDAA6126F344}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>NodeNameSync</RootNamespace>
-    <AssemblyName>NodeNameSync</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net472;net5.0;net6.0</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Infocaster.Umbraco.NodeNameSync</PackageId>
+		<Version>1.0.0</Version>
+		<Title>Infocaster.NodeNameSync</Title>
+		<Authors>Infocaster b.v.</Authors>
+		<Company>Infocaster b.v.</Company>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Description>NodeNameSync for Umbraco</Description>
+		<Copyright>Infocaster b.v. 2022</Copyright>
+
+		<PackageProjectUrl>https://infocaster.net/wat-we-doen/umbraco-plugins/</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>infocaster_logo.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>infocaster nodenamesync umbraco</PackageTags>
+		<RepositoryUrl>https://github.com/Infocaster/</RepositoryUrl>
+
+		<Description>NodeNameSync for Umbraco</Description>
+		<PackageReleaseNotes>1.0 - First version</PackageReleaseNotes>
+
+		<ContentTargetFolders>.</ContentTargetFolders>
+
+		<PackageOutputPath>../../output</PackageOutputPath>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="App_Plugins\Infocaster.NodeNameSync\**\*.*">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+			<PackagePath>content\App_Plugins\Infocaster.NodeNameSync</PackagePath>
+		</Content>
+		<None Include="build\**\*.*">
+			<Pack>True</Pack>
+			<PackagePath>buildTransitive</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\infocaster_logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
 </Project>
