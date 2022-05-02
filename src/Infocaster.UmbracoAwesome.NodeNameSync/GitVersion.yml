@@ -13,6 +13,6 @@ branches:
   hotfix:
     tag: 'beta'
     regex: ^v9/hotfix
-    source-branches: [ 'master' ]
+    source-branches: [ 'main' ]
 ignore:
   sha: []
