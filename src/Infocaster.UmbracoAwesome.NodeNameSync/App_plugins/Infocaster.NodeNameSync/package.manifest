@@ -1,4 +1,4 @@
-﻿﻿{
+﻿{
 	"$schema": "/App_Plugins/manifestSchema.json",
 	"propertyEditors": [
 		{
