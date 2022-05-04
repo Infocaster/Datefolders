@@ -63,7 +63,7 @@ stages:
 - stage: release
   displayName: Release
   dependsOn: build
-  condition: and(succeeded(), in(variables['build.sourcebranch'], 'refs/heads/v9/main', 'refs/heads/v9/develop'))
+  condition: and(succeeded(), in(variables['build.sourcebranch'], 'refs/tags/', 'refs/heads/v9/develop'))
   jobs:
   - job: release
     displayName: Push to artifacts
