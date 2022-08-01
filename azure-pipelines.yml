@@ -16,7 +16,6 @@ variables:
   BuildConfiguration: 'release'
   BuildPlatform: 'any cpu'
   Solution: '**\*.sln'
-  NpmWorkingDirectory: 'src\Infocaster.Umbraco.DateFolders'
 
 stages:
 - stage: build
