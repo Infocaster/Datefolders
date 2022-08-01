@@ -1,8 +1,10 @@
-﻿namespace Infocaster.Umbraco.DateFolders.Models
+﻿using System.Collections.Generic;
+
+namespace Infocaster.Umbraco.DateFolders.Models
 {
     public class DateFoldersConfigBase
     {
-        public string[] ItemDocTypes { get; set; }
+        public List<string> ItemDocTypes { get; set; } = new List<string>();
         public string FolderDocType { get; set; }
         public bool OrderByDescending { get; set; } = true;
         public bool CreateDayFolders { get; set; } = false;
