@@ -1,4 +1,4 @@
-# UrlTracker GlobalBlocklist extension
+# DateFolders - easy content management by date
 
 [![Downloads](https://img.shields.io/nuget/dt/Infocaster.Umbraco.DateFolders?color=ff0069)](https://www.nuget.org/packages/Infocaster.Umbraco.DateFolders/)
 [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Infocaster.Umbraco.DateFolders?color=ffc800)](https://www.nuget.org/packages/Infocaster.Umbraco.DateFolders/)
