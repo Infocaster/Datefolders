@@ -1,40 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PackageId>Infocaster.Umbraco.DateFolders</PackageId>
-    <Version>9.0.0</Version>
-    <Authors>Infocaster b.v.</Authors>
-    <Company>Infocaster b.v.</Company>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>This package creates Datefolders (year/month(/day)) for the specified doctype for Umbraco v9 and automatically puts content pages in the correct datefolder bases on the specified date field. For umbraco 8 use v3, for umbraco 7 use v2 and older versions please use v1.4</Description>
-    <Copyright>Infocaster b.v. 2022</Copyright>
-    <PackageProjectUrl>https://infocaster.net/wat-we-doen/umbraco-plugins/datefolders</PackageProjectUrl>
-    <PackageIcon>infocaster_instagram_logo_4x_720.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Infocaster/</RepositoryUrl>
-    <PackageTags>infocaster datefolders umbraco</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<ContentTargetFolders>.</ContentTargetFolders>
+		<PackageId>Infocaster.Umbraco.DateFolders</PackageId>
+		<Title>Infocaster.Umbraco.DateFolders</Title>
+		<Description>This package creates Datefolders (year/month(/day) for the specified doctype for Umbraco v9 and automatically puts content pages in the correct datefolder bases on the specified date field</Description>
+		<Product>Infocaster.Umbraco.DateFolders</Product>
+		<Authors>Infocaster B.V.</Authors>
+		<PackageTags>infocaster datefolders umbraco umbraco10 content management CMS</PackageTags>
+		<Company>Infocaster B.V.</Company>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<RootNamespace>Infocaster.Umbraco.DateFolders</RootNamespace>
+		<Copyright>Infocaster B.V. 2022</Copyright>
+		<PackageProjectUrl>https://github.com/Infocaster/Datefolders</PackageProjectUrl>
+		<PackageIcon>infocaster_nuget_yellow.png</PackageIcon>
+		<PackageReadmeFile>README-NUGET.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Infocaster/Datefolders</RepositoryUrl>
+		<PackageReleaseNotes>First release for Umbraco 10</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\infocaster_instagram_logo_4x_720.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-	  <None Include="..\..\ReadMe.txt">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-	  </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\docs\assets\infocaster_nuget_yellow.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README-NUGET.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\ReadMe.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="build\**\*.*">
+			<Pack>True</Pack>
+			<PackagePath>buildTransitive</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Umbraco.Cms.Core" Version="10.0.0" />
+	</ItemGroup>
 
 </Project>

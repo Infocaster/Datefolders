@@ -1,0 +1,8 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="CopyInfocasterUmbracoDateFoldersAssets" BeforeTargets="BeforeBuild">
+        <ItemGroup>
+            <DateFoldersContentFiles Include="$(GlobalBlocklistContentFilesPath)" />
+        </ItemGroup>
+		<Warning Text="No Infocaster.Umbraco.DateFolders files found in $(DateFoldersContentFiles)" Condition="@(DateFoldersContentFiles->Count()) == 0" />
+    </Target>
+</Project>
