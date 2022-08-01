@@ -3,22 +3,22 @@ next-version: 9.0.0
 branches:
   feature:
     tag: alpha
-    regex: ^v9/feature/
-    source-branches: ['v9/develop']
+    regex: ^v10/feature/
+    source-branches: ['v10/develop']
     is-mainline: false
   develop:
     tag: beta
-    regex: ^v9/develop$
+    regex: ^v10/develop$
     source-branches: []
     is-mainline: false
   master:
     tag: ''
-    regex: ^v9/main$
+    regex: ^v10/main$
     is-mainline: true
   hotfix:
     tag: 'beta'
-    regex: ^v9/hotfix
-    source-branches: ['v9/main']
+    regex: ^v10/hotfix
+    source-branches: ['v10/main']
     is-mainline: false
 ignore:
   sha: []
