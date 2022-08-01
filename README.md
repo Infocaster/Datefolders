@@ -14,10 +14,12 @@ This package makes it easy to separate your content base on the day on which it 
 With websites becoming bigger and bigger it is important that the content editors can easily find their content. This package makes that possible!
 A great use case for this is a website that shows articles or blog posts. With this package they will always be ordered correctly by date, no matter how many items the content editor has written.
 
-
 ## Requirements
-This package creates Datefolders (year/month(/day)) for the specified doctype for Umbraco 8.2.x+ . For umbraco 7 use v2 and older versions please use v1.4 <br> <br>
-**for Umbraco 9 use version 9.0.x and above!**
+This package creates DateFolders (year/month/day) for the Umbraco backoffice to help the Content Editor easily find pages.
+**for Umbraco 10 use version 10.0.x and above!**
+
+For Umbraco 8 please use 3.0.x. For umbraco 7 use v2 and older versions please use v1.4, these can be retrieved from [Our.Umbraco](https://our.umbraco.com/packages/developer-tools/datefolders/) <br> <br>
+
 
 ## Getting Started
 The DateFolders package is also available via NuGet. Visit [The DateFolders package on NuGet](https://www.nuget.org/packages/Infocaster.Umbraco.DateFolders/).
@@ -50,6 +52,9 @@ After installing the package, just complete the configuration steps below and yo
 The Support Module is made by Infocaster, a Dutch company dedicated to improving your Umbraco experience.
 
 ## Changelog
+Version 10.0.0
+- Updated to use umbraco v10.
+
 Version 9.0.0
 - Updated to use umbraco v9.
 
