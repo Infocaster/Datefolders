@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -9,8 +9,6 @@
 		<PackageReference Include="Umbraco.Cms" Version="10.0.1" />
 		<PackageReference Include="Umbraco.TheStarterKit" Version="10.0.0" />
 	</ItemGroup>
-
-	<Import Project="..\src\Infocaster.Umbraco.DateFolders\build\Infocaster.Umbraco.DateFolders.targets" />
 
 	<ItemGroup>
 		<ProjectReference Include="..\src\Infocaster.Umbraco.DateFolders\Infocaster.Umbraco.DateFolders.csproj" />
