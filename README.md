@@ -1,5 +1,5 @@
 <h3 align="center">
-<img height="100" src="docs/assets/infocaster_nuget_yellow.svg">
+<img height="100" src="https://raw.githubusercontent.com/Infocaster/.github/main/assets/infocaster_nuget_yellow.svg">
 </h3>
 
 <h1 align="center">
@@ -47,9 +47,6 @@ After installing the package, just complete the configuration steps below and yo
 - **DateFolderDocType** | The doctype to use for creating the year/month/day folders. (e.g "DateFolder")
 - **CreateDayFolders** | Boolean indicating whether or not day folders should be created, if false only years and months are created.
 - **OrderByDecending** | Boolean indicating sort order for date folders (default: false)
-
-## Credits ##
-This package is made by [Infocaster](https://infocaster.net/), a Dutch company and Umbraco Gold Partner dedicated to improving your Umbraco experience.
 
 ## Changelog
 Version 10.0.0
@@ -100,5 +97,5 @@ Version 1.1
 - Tree get's synced automatically
 
 <a href="https://infocaster.net">
-<img align="right" height="200" src="docs/assets/Infocaster_Corner.png">
+<img align="right" height="200" src="https://raw.githubusercontent.com/Infocaster/.github/main/assets/Infocaster_Corner.png">
 </a>
