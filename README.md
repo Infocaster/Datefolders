@@ -38,7 +38,9 @@ After installing the package, just complete the configuration steps below and yo
     "CreateDayFolders": false,          
     "OrderByDescending": true,          
     "FolderDocType": "dateFolder",      
-    "ItemDocTypes": [ "contentPage" ]   
+    "ItemDocTypes": [ "contentPage" ],
+    "AllowedParentIds": [ 2222 ],
+    "AllowedParentDocTypes": ["blog"]
 }
 ```
 
@@ -47,6 +49,8 @@ After installing the package, just complete the configuration steps below and yo
 - **DateFolderDocType** | The doctype to use for creating the year/month/day folders. (e.g "DateFolder")
 - **CreateDayFolders** | Boolean indicating whether or not day folders should be created, if false only years and months are created.
 - **OrderByDecending** | Boolean indicating sort order for date folders (default: false)
+- **AllowedParentIds** | (Optional) The node id for the parent(s) to limit the creation of datefolders to. (e.g. 1234) - comma separated values are allowed for multiple note ids
+- **AllowedParentDocTypes** | (Optional) The doctype alias for the parent(s) to limit the creation of datefolders to. (e.g. "blog") - comma separated values are allowed for multiple doctype aliases
 
 ## Changelog
 Version 10.0.0
