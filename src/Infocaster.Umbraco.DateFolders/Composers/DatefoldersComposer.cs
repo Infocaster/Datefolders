@@ -164,9 +164,15 @@ namespace Infocaster.Umbraco.DateFolders.Composers
 
         public void Handle(ContentSavedNotification notification)
         {
-            foreach (var content in notification.SavedEntities)
+            foreach (IContent savedContent in notification.SavedEntities)
             {
+                // Fix for 'cannot save non-current version' error: https://our.umbraco.com/forum/using-umbraco-and-getting-started/99320-cannot-save-a-non-current-version
+                // Error occurs when no datefolders available yet and multiple items are moved into datefolders
+                IContent content = _contentService.GetById(savedContent.Id);
+
                 if (!_options.ItemDocTypes.Contains(content.ContentType.Alias)) continue;
+
+                if (!ParentValid(content)) continue;
 
                 IContentType folderDocType = _contentTypeService.Get(_options.FolderDocType);
                 if (folderDocType is not null)
@@ -176,9 +182,9 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                         var date = GetItemDate(content, _options.ItemDateProperty);
                         IContent parent = _contentService.GetById(content.ParentId);
 
-                        IContent? monthFolder = null;
-                        IContent? yearFolder = null;
-                        IContent? dayFolder = null;
+                        IContent monthFolder = null;
+                        IContent yearFolder = null;
+                        IContent dayFolder = null;
 
                         bool dayChanged = false;
                         bool monthChanged;
@@ -196,9 +202,9 @@ namespace Infocaster.Umbraco.DateFolders.Composers
 
                                 dayChanged = date.Day.ToString("00") != dayFolder.Name;
                             }
-                            
+
                             yearFolder = _contentService.GetById(monthFolder.ParentId);
-                            
+
                             // Set item parent to source folder which contains the datefolders for sorting
                             parent = _contentService.GetById(yearFolder.ParentId);
 
@@ -214,7 +220,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
 
                         if (yearChanged || monthChanged || dayChanged)
                         {
-                            IContent? newDayFolder = null;
+                            IContent newDayFolder = null;
 
                             IContent newYearFolder = yearChanged || yearFolder is null ? GetOrCreateAndPublishDateFolder(_contentService, parent, date.Year.ToString(), content.CreatorId) : yearFolder;
                             IContent newMonthFolder = GetOrCreateAndPublishDateFolder(_contentService, newYearFolder, date.Month.ToString("00"), content.CreatorId);
@@ -256,7 +262,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
 
                             // Sort all content in folders by date
                             OrderChildrenByDateProperty(orderParent, _options.OrderByDescending, !string.IsNullOrEmpty(_options.ItemDateProperty) ? _options.ItemDateProperty : null);
-                            
+
                             // Sort all folders by name
                             OrderChildrenByName(parent, _options.OrderByDescending);
                             OrderChildrenByName(newYearFolder, _options.OrderByDescending);
@@ -292,7 +298,8 @@ namespace Infocaster.Umbraco.DateFolders.Composers
 
             if (content.HasProperty(propertyAlias))
             {
-                return content.GetValue<DateTime>(propertyAlias);
+                DateTime propertyDate = content.GetValue<DateTime>(propertyAlias);
+                return propertyDate == DateTime.MinValue ? content.CreateDate : propertyDate;
             }
             else
             {
@@ -310,7 +317,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         /// <returns></returns>
         private IContent GetOrCreateAndPublishDateFolder(IContentService contentService, IContent parent, string nodeName, int currentUserId)
         {
-            IContent? content = null;
+            IContent content = null;
             var parentChildren = parent.GetAllChildren(_contentService);
 
             // Get first child of FolderDocType if it exists
@@ -338,7 +345,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         {
             try
             {
-                var allChildren = parent.GetAllChildren(_contentService); 
+                var allChildren = parent.GetAllChildren(_contentService);
 
                 var orderedChildren = (orderByDesc
                     ? allChildren.Where(c => int.TryParse(c.Name, out int i)).OrderByDescending(x => int.Parse(x.Name))
@@ -360,7 +367,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         /// <param name="parent"></param>
         /// <param name="orderByDesc"></param>
         /// <param name="propertyAlias"></param>
-        private void OrderChildrenByDateProperty(IContent parent, bool orderByDesc, string? propertyAlias = null)
+        private void OrderChildrenByDateProperty(IContent parent, bool orderByDesc, string propertyAlias = "")
         {
             try
             {
@@ -385,6 +392,17 @@ namespace Infocaster.Umbraco.DateFolders.Composers
             {
                 _logger.LogError(ex, "DateFolders OrderChildrenByDateProperty exception");
             }
+        }
+
+        private bool ParentValid(IContent content)
+        {
+            if (!_options.AllowedParentIds.Any() && !_options.AllowedParentDocTypes.Any()) return true;
+
+            IContent parentContentItem = _contentService.GetAncestors(content).Reverse().FirstOrDefault(x => !x.ContentType.Alias.Equals(_options.FolderDocType));
+            if (_options.AllowedParentIds.Any() && _options.AllowedParentIds.Contains(parentContentItem.Id)) return true;
+            if (_options.AllowedParentDocTypes.Any() && _options.AllowedParentDocTypes.Contains(parentContentItem.ContentType.Alias)) return true;
+
+            return false;
         }
     }
 }
