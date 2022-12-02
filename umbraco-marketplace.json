@@ -1,0 +1,29 @@
+{
+    "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+    "Title": "Date folders",
+    "Category": "Editor Tools",
+    "PackageType": "Package",
+    "Tags": [
+        "folder",
+        "date",
+        "news",
+        "year",
+        "month",
+        "day"
+    ],
+    "LicenseTypes": ["Free"],
+    "AuthorDetails": {
+        "Url": "https://infocaster.net",
+        "ImageUrl": "https://github.com/InfocasterTechniek.png",
+        "Description": "Let's make the internet brighter",
+        "Contributors": [
+            "Dennis Heutinck",
+            "Erik Eelman",
+            "Joris Peters",
+            "Bram van den Bogaard",
+            "Fabian Hofman"
+        ]
+    },
+    "IssueTrackerUrl": "https://github.com/Infocaster/DateFolders/issues",
+    "DiscussionForumUrl": "https://github.com/Infocaster/DateFolders/discussions"
+}

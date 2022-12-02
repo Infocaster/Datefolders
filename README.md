@@ -53,6 +53,9 @@ After installing the package, just complete the configuration steps below and yo
 - **AllowedParentDocTypes** | (Optional) The doctype alias for the parent(s) to limit the creation of datefolders to. (e.g. "blog") - comma separated values are allowed for multiple doctype aliases
 
 ## Changelog
+Version 11.0.0
+- Updated to use umbraco v11
+
 Version 10.0.0
 - Updated to use umbraco v10.
 
