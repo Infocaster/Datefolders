@@ -1,45 +1,35 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>net472;net5.0</TargetFrameworks>
+		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>Infocaster.Umbraco.NodeNameSync</PackageId>
-		<Version>1.0.0</Version>
+		<Version>10.0.0</Version>
 		<Title>Infocaster.NodeNameSync</Title>
 		<Authors>Infocaster b.v.</Authors>
 		<Company>Infocaster b.v.</Company>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>NodeNameSync for Umbraco</Description>
-		<Copyright>Infocaster b.v. 2022</Copyright>
+		<Copyright>Infocaster b.v. 2023</Copyright>
 
 		<PackageProjectUrl>https://infocaster.net/wat-we-doen/umbraco-plugins/</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>infocaster_logo.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>infocaster nodenamesync umbraco</PackageTags>
+		<PackageTags>infocaster nodenamesync umbraco contenteditor</PackageTags>
 		<RepositoryUrl>https://github.com/Infocaster/</RepositoryUrl>
 
 		<Description>NodeNameSync for Umbraco</Description>
-		<PackageReleaseNotes>1.0 - First version</PackageReleaseNotes>
+		<PackageReleaseNotes>10.0.0 - V10 version with PropertyValueConverter</PackageReleaseNotes>
 
 		<ContentTargetFolders>.</ContentTargetFolders>
 
 		<PackageOutputPath>../../output</PackageOutputPath>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
-	</PropertyGroup>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
 
-	<ItemGroup>
-		<Content Include="App_Plugins\Infocaster.NodeNameSync\**\*.*">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
-			<PackagePath>content\App_Plugins\Infocaster.NodeNameSync</PackagePath>
-		</Content>
-		<None Include="build\**\*.*">
-			<Pack>True</Pack>
-			<PackagePath>buildTransitive</PackagePath>
-		</None>
-	</ItemGroup>
+		<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\..\infocaster_logo.png">
@@ -50,6 +40,10 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Umbraco.Cms.Core" Version="10.0.0" />
 	</ItemGroup>
 	
 </Project>
