@@ -49,7 +49,7 @@ stages:
       inputs:
         command: pack
         packagesToPack: src/**/*.csproj
-        nobuild: true
+        nobuild: false
         versioningScheme: byEnvVar
         versionEnvVar: GitVersion.NuGetVersion
 
