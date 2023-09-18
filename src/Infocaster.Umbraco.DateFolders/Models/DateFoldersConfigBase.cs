@@ -8,6 +8,8 @@ namespace Infocaster.Umbraco.DateFolders.Models
         public List<int> AllowedParentIds { get; set; } = new List<int>();
         public List<string> AllowedParentDocTypes { get; set; } = new List<string>();
         public string FolderDocType { get; set; }
+        public string MonthFolderDocType { get; set; }
+        public string DayFolderDocType { get; set; }
         public bool OrderByDescending { get; set; } = true;
         public bool CreateDayFolders { get; set; } = false;
         public string ItemDateProperty { get; set; }
