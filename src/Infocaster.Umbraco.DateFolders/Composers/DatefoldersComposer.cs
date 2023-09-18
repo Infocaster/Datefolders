@@ -222,14 +222,14 @@ namespace Infocaster.Umbraco.DateFolders.Composers
                         {
                             IContent newDayFolder = null;
 
-                            IContent newYearFolder = yearChanged || yearFolder is null ? GetOrCreateAndPublishDateFolder(_contentService, parent, date.Year.ToString(), content.CreatorId) : yearFolder;
-                            IContent newMonthFolder = GetOrCreateAndPublishDateFolder(_contentService, newYearFolder, date.Month.ToString("00"), content.CreatorId);
+                            IContent newYearFolder = yearChanged || yearFolder is null ? GetOrCreateAndPublishDateFolder(_contentService, DateFolderType.Year, parent, date.Year.ToString(), content.CreatorId) : yearFolder;
+                            IContent newMonthFolder = GetOrCreateAndPublishDateFolder(_contentService, DateFolderType.Month, newYearFolder, date.Month.ToString("00"), content.CreatorId);
                             IContent orderParent = newMonthFolder;
 
                             // Move content to correct folder
                             if (_options.CreateDayFolders)
                             {
-                                newDayFolder = GetOrCreateAndPublishDateFolder(_contentService, newMonthFolder, date.Day.ToString("00"), content.CreatorId);
+                                newDayFolder = GetOrCreateAndPublishDateFolder(_contentService, DateFolderType.Day, newMonthFolder, date.Day.ToString("00"), content.CreatorId);
                                 _contentService.Move(content, newDayFolder.Id);
                                 orderParent = newDayFolder;
                             }
@@ -308,28 +308,43 @@ namespace Infocaster.Umbraco.DateFolders.Composers
         }
 
         /// <summary>
-        /// Gets DateFolder by name if exists, if it not exists than create folder with specified name.
+        /// Gets the appropriate DateFolder by name if exists, if it not exists than create folder with specified name.
         /// </summary>
         /// <param name="contentService"></param>
+        /// <param name="dateFolderType"></param>
         /// <param name="parent"></param>
         /// <param name="nodeName"></param>
         /// <param name="currentUserId"></param>
         /// <returns></returns>
-        private IContent GetOrCreateAndPublishDateFolder(IContentService contentService, IContent parent, string nodeName, int currentUserId)
+        private IContent GetOrCreateAndPublishDateFolder(IContentService contentService, DateFolderType dateFolderType, IContent parent, string nodeName, int currentUserId)
         {
             IContent content = null;
             var parentChildren = parent.GetAllChildren(_contentService);
 
-            // Get first child of FolderDocType if it exists
+            // By default use the FolderDocType alias
+            var folderDocType = _options.FolderDocType;
+
+            if (dateFolderType == DateFolderType.Month && !string.IsNullOrEmpty(_options.MonthFolderDocType))
+            {
+                // Configured to use a specific doc type for Month
+                folderDocType = _options.MonthFolderDocType;
+            }
+            else if (dateFolderType == DateFolderType.Day && !string.IsNullOrEmpty(_options.DayFolderDocType))
+            {
+                // Configured to use a specific doc type for Day
+                folderDocType = _options.DayFolderDocType;
+            }
+
+            // Get first child of the appropriate FolderDocType if it exists
             if (parentChildren.Any())
             {
-                content = parentChildren.FirstOrDefault(x => x.ContentType.Alias.Equals(_options.FolderDocType) && x.Name.Equals(nodeName));
+                content = parentChildren.FirstOrDefault(x => x.ContentType.Alias.Equals(folderDocType) && x.Name.Equals(nodeName));
             }
 
             // Create folder if if non exists
             if (content is null)
             {
-                content = _contentService.CreateContent(nodeName, parent.GetUdi(), _options.FolderDocType, currentUserId);
+                content = _contentService.CreateContent(nodeName, parent.GetUdi(), folderDocType, currentUserId);
             }
 
             if (!content.Published) contentService.SaveAndPublish(content, userId: currentUserId);
@@ -403,6 +418,13 @@ namespace Infocaster.Umbraco.DateFolders.Composers
             if (_options.AllowedParentDocTypes.Any() && _options.AllowedParentDocTypes.Contains(parentContentItem.ContentType.Alias)) return true;
 
             return false;
+        }
+
+        private enum DateFolderType
+        {
+            Year,
+            Month,
+            Day
         }
     }
 }
