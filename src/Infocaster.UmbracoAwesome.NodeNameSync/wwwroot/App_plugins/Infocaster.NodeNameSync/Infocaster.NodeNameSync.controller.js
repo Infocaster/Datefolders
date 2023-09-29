@@ -55,4 +55,12 @@
     $scope.updateModel = function () {
         $scope.model.value = $scope.syncField.value;
     };
+
+    $scope.onKeydown = function (event) {
+        if (event.key === " " || event.key === "Enter" || event.key === "Spacebar") {
+            // Prevent the default action to stop scrolling when space is pressed
+            event.preventDefault();
+            vm.toggleSync();
+        }
+    }
 });
