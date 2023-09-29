@@ -1,6 +1,8 @@
 ﻿<div ng-controller="Infocaster.NodeNameSync as vm" class="node-name-sync">
     <umb-property-editor model="syncField"></umb-property-editor>
-    <a class="lock" ng-class="{ 'unlocked': !vm.inSync }" ng-click="vm.toggleSync()" title="{{vm.inSync ? 'Unlink from page name' : 'Link to page name'}}">
+    <a class="lock" ng-class="{ 'unlocked': !vm.inSync }" ng-click="vm.toggleSync()" ng-keydown="onKeydown($event)" 
+       title="{{vm.inSync ? 'Unlink from page name' : 'Link to page name'}}" role="button" tabindex="0" 
+       aria-label="Link to page name" aria-pressed="{{vm.inSync}}">
         <i ng-class="vm.inSync ? 'icon-lock' : 'icon-unlocked'"></i>
     </a>
 </div>
