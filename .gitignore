@@ -41,3 +41,4 @@ artifacts/
 
 # Typescript output
 **/Typescripts/**/*.js
+/.vscode

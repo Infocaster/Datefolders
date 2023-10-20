@@ -28,7 +28,7 @@
 		<PackageOutputPath>../../output</PackageOutputPath>
 		<IncludeBuildOutput>true</IncludeBuildOutput>
 
-		<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+		<StaticWebAssetBasePath>App_Plugins/NodeNameSync</StaticWebAssetBasePath>
 	</PropertyGroup>
 
 	<ItemGroup>
