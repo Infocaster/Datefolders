@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Manifest;
@@ -10,26 +6,27 @@ using UmbracoLitExtension.Extension;
 
 namespace NodeNameSync.Composing
 {
-public class NodeNameSyncComposer : IComposer
-{
-    public void Compose(IUmbracoBuilder builder)
+    public class NodeNameSyncComposer : IComposer
     {
-        builder.ManifestFilters().Append<Manifest>();
-    }
-}
-
-internal class Manifest : IManifestFilter
-{
-    public void Filter(List<PackageManifest> manifests)
-    {
-        manifests.Add(new PackageManifest
+        public void Compose(IUmbracoBuilder builder)
         {
-            PackageName = "Infocaster.Umbraco.NodeNameSync",
-            Scripts = new[]
-         {
-            Defaults.PluginBasePath + "/script.iife.js"
-         },
-        });
+            builder.ManifestFilters().Append<Manifest>();
+        }
     }
-}
+
+    internal class Manifest : IManifestFilter
+    {
+        public void Filter(List<PackageManifest> manifests)
+        {
+            manifests.Add(new PackageManifest
+            {
+                PackageName = "Infocaster.Umbraco.NodeNameSync",
+                BundleOptions = BundleOptions.None,
+                Scripts = new[]
+                {
+                    Defaults.PluginBasePath + "/script.iife.js"
+                },
+            });
+        }
+    }
 }

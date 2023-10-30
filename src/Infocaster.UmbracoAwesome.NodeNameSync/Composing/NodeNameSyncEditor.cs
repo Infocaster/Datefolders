@@ -7,7 +7,7 @@ namespace NodeNameSync.Composing
     alias: "Infocaster.NodeNameSync",
     EditorType.PropertyValue,
     name: "Node name sync",
-    view: "/App_Plugins/NodeNameSync/nodenamesync/nodenamesync.html",
+    view: "/App_Plugins/NodeNameSync/nodenamesync.html",
     Icon = "icon-nodes",
     HideLabel = false,
     ValueType = "STRING")]

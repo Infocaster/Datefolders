@@ -1,4 +1,4 @@
-import { IEditorState } from "../util/umbraco/editorstate";
+import { IEditorState } from "./editorstate.model";
 
 export interface INodeNameSyncScope extends angular.IScope {
 

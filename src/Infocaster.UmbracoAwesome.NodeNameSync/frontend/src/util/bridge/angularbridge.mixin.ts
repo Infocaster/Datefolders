@@ -1,5 +1,4 @@
 import { ContextProvider, createContext } from "@lit/context";
-import { html } from "lit";
 import { LitElementConstructor } from "../litelementconstructor";
 
 export function AngularBridgeMixin<TBase extends LitElementConstructor>(Base: TBase, contentTemplate: unknown){
@@ -17,11 +16,7 @@ export function AngularBridgeMixin<TBase extends LitElementConstructor>(Base: TB
         }
 
         protected render(): unknown {
-            return html`
-                <angular-icon-registry>
-                    ${contentTemplate}
-                </angular-icon-registry>
-            `;
+            return contentTemplate;
         }
     }
 }

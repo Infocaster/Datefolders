@@ -7,7 +7,7 @@ trigger:
     - v10/hotfix
   tags:
     include:
-    - 1.*
+    - 10.*
 
 pool:
   name: Default
@@ -16,6 +16,7 @@ variables:
   BuildConfiguration: 'release'
   BuildPlatform: 'any cpu'
   Solution: '**\*.sln'
+  npmWorkingDirectory: 'src\Infocaster.UmbracoAwesome.NodeNameSync'
 
 stages:
 - stage: build
@@ -24,6 +25,26 @@ stages:
   - job: build
     displayName: Build
     steps:
+    - task: NodeTool@0
+      displayName: 'Use node 20.x'
+      inputs:
+        versionSpec: '20.x'
+
+    - task: Npm@1
+      displayName: 'Install front end packages'
+      inputs:
+        command: 'custom'
+        workingDir: $(npmWorkingDirectory)
+        customCommand: 'ci --prefer-online --no-audit'
+        verbose:
+
+    - task: Npm@1
+      displayName: 'Build front end'
+      inputs:
+        command: 'custom'
+        workingDir: $(npmWorkingDirectory)
+        customCommand: 'run build'
+
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:

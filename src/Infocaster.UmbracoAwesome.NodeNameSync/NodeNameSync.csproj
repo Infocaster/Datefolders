@@ -2,15 +2,13 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
-	<PropertyGroup>
+        <Nullable>enable</Nullable>
 		<PackageId>Infocaster.Umbraco.NodeNameSync</PackageId>
 		<Version>10.0.0</Version>
 		<Title>Infocaster.NodeNameSync</Title>
 		<Authors>Infocaster b.v.</Authors>
 		<Company>Infocaster b.v.</Company>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Description>NodeNameSync for Umbraco</Description>
 		<Copyright>Infocaster b.v. 2023</Copyright>
 
 		<PackageProjectUrl>https://infocaster.net/wat-we-doen/umbraco-plugins/</PackageProjectUrl>
@@ -22,11 +20,6 @@
 
 		<Description>NodeNameSync for Umbraco</Description>
 		<PackageReleaseNotes>10.0.0 - V10 version with PropertyValueConverter</PackageReleaseNotes>
-
-		<ContentTargetFolders>.</ContentTargetFolders>
-
-		<PackageOutputPath>../../output</PackageOutputPath>
-		<IncludeBuildOutput>true</IncludeBuildOutput>
 
 		<StaticWebAssetBasePath>App_Plugins/NodeNameSync</StaticWebAssetBasePath>
 	</PropertyGroup>

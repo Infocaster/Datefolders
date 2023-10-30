@@ -1,7 +1,7 @@
 import { consume } from "@lit/context";
 import { LitElement, css, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { IEditorStateProvider, IEditorStateVariation } from "../../util/umbraco/editorstate";
+import { IEditorStateProvider, IEditorStateVariation } from "../../models/editorstate.model";
 import { editorStateContext } from "../../context/editorstate.context";
 import { ensureServiceExists } from "../../util/ensure";
 import { scopeContext } from "../../context/scope.context";
@@ -37,12 +37,12 @@ export class NodeNameSyncContent extends LitElement {
 
     const currentState = this.editorState.getCurrent();
     this.scope.editorState = currentState;
-    this.editorStateCurrentCulture = currentState.variants.find((v) => v.active);
+    this.editorStateCurrentCulture = currentState.variants?.find((v) => v.active);
     this.inSync = this.editorStateCurrentCulture?.name === this.scope.model.value;
     this.syncFieldValue = this.scope.model.value;
 
     this.scope.$watch(() => {
-      return this.scope?.editorState.variants.find(element => element.active)?.name;
+      return this.scope?.editorState.variants?.find(element => element.active)?.name;
     }, (value) => {
       this.fromNameToModel(value);
     });
@@ -104,8 +104,9 @@ export class NodeNameSyncContent extends LitElement {
 
   protected render(): unknown {
     return html`
-      <uui-input value=${this.syncFieldValue} @input=${this.onChange}></uui-input>
-      <uui-button 
+    <uui-icon-registry-essential>
+      <uui-input .value=${this.syncFieldValue} @input=${this.onChange}></uui-input>
+        <uui-button 
             compact="true"
             title="${this.inSync ? "Unlink from page name" : "Link to page name"}"
             role="button"
@@ -113,13 +114,12 @@ export class NodeNameSyncContent extends LitElement {
             aria-pressed=${this.inSync}
             @click=${this.toggleSync} 
             @keydown=${this.onKeyDown}>
-        <uui-icon-registry-essential>
           <uui-icon 
             class="${this.inSync ? "lock" : "lock unlocked"}" 
             name="${this.inSync ? "lock" : "unlock"}">
           </uui-icon>
-        </uui-icon-registry-essential>
-      </uui-button>
+        </uui-button>
+      </uui-icon-registry-essential>
     `;
   }
 
@@ -141,10 +141,6 @@ export class NodeNameSyncContent extends LitElement {
 
       .lock.unlocked {
         color: #ee5f5b;
-      }
-
-      .lock uui-icon-registry-essential {
-        line-height: 2rem;
       }
     `,
   ];
