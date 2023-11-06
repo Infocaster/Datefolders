@@ -25,6 +25,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+        <!-- Items excluded as they would otherwise end up in the build output -->
+	  <Content Remove="package-lock.json" />
+	  <Content Remove="package.json" />
+	  <Content Remove="tsconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="..\..\infocaster_logo.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
