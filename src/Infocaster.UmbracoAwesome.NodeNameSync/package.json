@@ -1,0 +1,23 @@
+{
+  "name": "lit-extension",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:watch": "vite build --watch",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lit/context": "^1.0.0",
+    "@umbraco-ui/uui": "^1.4.0",
+    "axios": "^1.5.1",
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/angular": "^1.8.6",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11"
+  }
+}

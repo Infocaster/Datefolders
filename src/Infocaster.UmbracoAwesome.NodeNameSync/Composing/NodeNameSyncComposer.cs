@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Manifest;
+using UmbracoLitExtension.Extension;
 
 namespace NodeNameSync.Composing
 {
@@ -24,14 +21,11 @@ namespace NodeNameSync.Composing
             manifests.Add(new PackageManifest
             {
                 PackageName = "Infocaster.Umbraco.NodeNameSync",
+                BundleOptions = BundleOptions.None,
                 Scripts = new[]
-             {
-               "/App_Plugins/Infocaster.NodeNameSync/Infocaster.NodeNameSync.controller.js"
-             },
-                Stylesheets = new[]
-             {
-               "/App_Plugins/Infocaster.NodeNameSync/Infocaster.NodeNameSync.css"
-             }
+                {
+                    Defaults.PluginBasePath + "/script.iife.js"
+                },
             });
         }
     }

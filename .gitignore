@@ -41,3 +41,5 @@ artifacts/
 
 # Typescript output
 **/Typescripts/**/*.js
+/.vscode
+/src/Infocaster.UmbracoAwesome.NodeNameSync/wwwroot
