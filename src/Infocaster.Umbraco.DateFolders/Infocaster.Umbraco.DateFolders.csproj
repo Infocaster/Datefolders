@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>Infocaster.Umbraco.DateFolders</PackageId>
@@ -38,6 +38,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Core" Version="14.0.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="17" />
   </ItemGroup>
 </Project>
