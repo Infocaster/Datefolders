@@ -5,10 +5,10 @@
     <ContentTargetFolders>.</ContentTargetFolders>
     <PackageId>Infocaster.Umbraco.DateFolders</PackageId>
     <Title>Infocaster.Umbraco.DateFolders</Title>
-    <Description>This package creates Datefolders (year/month/day) for the specified doctype for Umbraco v14 and automatically puts content pages in the correct datefolder bases on the specified date field</Description>
+    <Description>This package creates Datefolders (year/month/day) for the specified doctype for Umbraco v17 and automatically puts content pages in the correct datefolder bases on the specified date field</Description>
     <Product>Infocaster.Umbraco.DateFolders</Product>
     <Authors>Infocaster B.V.</Authors>
-    <PackageTags>infocaster datefolders umbraco umbraco14 content management CMS umbraco-marketplace</PackageTags>
+    <PackageTags>infocaster datefolders umbraco umbraco17 content management CMS umbraco-marketplace</PackageTags>
     <Company>Infocaster B.V.</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RootNamespace>Infocaster.Umbraco.DateFolders</RootNamespace>
@@ -19,7 +19,7 @@
     <RepositoryUrl>https://github.com/Infocaster/Datefolders</RepositoryUrl>
     <PackageReleaseNotes>1 change
 
-- Update to Umbraco 14</PackageReleaseNotes>
+- Update to Umbraco 17</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
