@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
 		<PackageId>Infocaster.Umbraco.NodeNameSync</PackageId>
-		<Version>10.0.0</Version>
+		<Version>17.0.0</Version>
 		<Title>Infocaster.NodeNameSync</Title>
 		<Authors>Infocaster b.v.</Authors>
 		<Company>Infocaster b.v.</Company>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Copyright>Infocaster b.v. 2023</Copyright>
+		<Copyright>Infocaster b.v. 2026</Copyright>
 
 		<PackageProjectUrl>https://infocaster.net/wat-we-doen/umbraco-plugins/</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,16 +19,15 @@
 		<RepositoryUrl>https://github.com/Infocaster/</RepositoryUrl>
 
 		<Description>NodeNameSync for Umbraco</Description>
-		<PackageReleaseNotes>10.0.0 - V10 version with PropertyValueConverter</PackageReleaseNotes>
+		<PackageReleaseNotes>17.0.0 - V17 version with PropertyValueConverter</PackageReleaseNotes>
 
-		<StaticWebAssetBasePath>App_Plugins/NodeNameSync</StaticWebAssetBasePath>
+		<StaticWebAssetBasePath>App_Plugins</StaticWebAssetBasePath>
 	</PropertyGroup>
 
 	<ItemGroup>
         <!-- Items excluded as they would otherwise end up in the build output -->
 	  <Content Remove="package-lock.json" />
 	  <Content Remove="package.json" />
-	  <Content Remove="tsconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -43,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Umbraco.Cms.Core" Version="10.0.0" />
+	  <PackageReference Include="Umbraco.Cms.Core" Version="17.0.0" />
 	</ItemGroup>
 	
 </Project>

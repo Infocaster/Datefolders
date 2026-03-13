@@ -1,0 +1,35 @@
+{
+  "name": "Infocaster.NodeNameSync",
+  "extensions": [
+    {
+      "type": "propertyEditorUi",
+      "alias": "Infocaster.NodeNameSync",
+      "name": "Node name sync",
+      "element": "/App_Plugins/nodenamesync/nodenamesync.js",
+      "meta": {
+        "propertyEditorSchemaAlias": "Umbraco.Plain.String",
+        "label": "Node name sync",
+        "icon": "icon-axis-rotation",
+        "group": "Common"
+      }
+    },
+    {
+      "type": "localization",
+      "alias": "Infocaster.NodeNameSync.Localize.EnUS",
+      "name": "English",
+      "meta": {
+        "culture": "en-us"
+      },
+      "js": "/App_Plugins/nodenamesync/Localization/en-us.js"
+    },
+    {
+      "type": "localization",
+      "alias": "Infocaster.NodeNameSync.Localize.NlNL",
+      "name": "Dutch",
+      "meta": {
+        "culture": "nl-nl"
+      },
+      "js": "/App_Plugins/nodenamesync/Localization/nl-nl.js"
+    }
+  ]
+}

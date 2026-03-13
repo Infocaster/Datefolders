@@ -56,7 +56,6 @@ namespace Infocaster.Umbraco.NodeNameSync.Website
                 })
                 .WithEndpoints(u =>
                 {
-                    u.UseInstallerEndpoints();
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();
                 });
