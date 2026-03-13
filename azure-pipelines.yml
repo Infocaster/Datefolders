@@ -13,9 +13,13 @@ pool:
   name: Default
 
 variables: 
-  BuildConfiguration: 'release'
-  BuildPlatform: 'any cpu'
-  Solution: '**\*.sln'
+  - name: BuildConfiguration 
+    value: 'release'
+  - name: BuildPlatform
+    value: 'any cpu'
+  - name: Solution
+    value: '**\*.sln'
+  - group: nuget-package
 
 stages:
 - stage: build
