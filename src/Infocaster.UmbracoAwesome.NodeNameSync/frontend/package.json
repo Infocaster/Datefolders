@@ -16,6 +16,6 @@
     "@umbraco-cms/backoffice": "^17.0.0",
     "prettier-plugin-one-line-imports": "^1.0.2",
     "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.3.2"
   }
 }
