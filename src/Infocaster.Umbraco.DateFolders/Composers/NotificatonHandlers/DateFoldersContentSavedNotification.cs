@@ -50,12 +50,14 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
                 IContentType folderDocType = _contentTypeService.Get(_options.FolderDocType);
                 if (folderDocType is null)
                 {
+                    // Date folder doctype is null
                     _logger.LogError("The date folder document type '{folderDocType}' does not exist", _options.FolderDocType);
                     continue;
                 }
 
                 if (content.ParentId == default)
                 {
+                    // Item is created under 'Content' root, which is unsupported
                     _logger.LogError("Creating a date folder item under 'Content' root is unsupported");
                     continue;
                 }
@@ -73,6 +75,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
 
                 bool dayCreated = false;
 
+                // Item already has datefolder as parent
                 if (parent.ContentType.Alias.Equals(_options.FolderDocType))
                 {
                     monthFolder = parent;
@@ -85,6 +88,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
                         dayChanged = date.Day.ToString("00") != dayFolder.Name;
                     }
 
+                    // Set item parent to source folder which contains the datefolders for sorting
                     yearFolder = _contentService.GetById(monthFolder.ParentId);
                     parent = _contentService.GetById(yearFolder.ParentId);
 
@@ -166,9 +170,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
         /// </summary>
         /// <remarks>
         /// Matches an existing child by both content type alias (<c>_options.FolderDocType</c>) and name; if no
-        /// match is found, a new folder is created. If the resulting folder is not yet published, its key is
-        /// recorded in <c>_selfInitiatedSaves</c> immediately before saving, so the notification handler can
-        /// recognize the resulting save/publish as self-initiated and skip re-processing it.
+        /// match is found, a new folder is created.
         /// </remarks>
         /// <param name="contentService">The content service used to save and publish the date folder.</param>
         /// <param name="parent">The parent content node under which the date folder should exist.</param>
