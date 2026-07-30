@@ -34,14 +34,15 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
             _contentTypeService = contentTypeService;
         }
 
+
+        
         public void Handle(ContentSavedNotification notification)
         {
             foreach (IContent savedContent in notification.SavedEntities)
             {
-                // Fix for 'cannot save non-current version' error: https://our.umbraco.com/forum/using-umbraco-and-getting-started/99320-cannot-save-a-non-current-version
-                // Error occurs when no datefolders available yet and multiple items are moved into datefolders
                 IContent content = _contentService.GetById(savedContent.Id);
 
+                if (content is null) continue;
                 if (!_options.ItemDocTypes.Contains(content.ContentType.Alias)) continue;
 
                 if (!ParentValid(content)) continue;
@@ -72,6 +73,8 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
                 bool monthChanged;
                 bool yearChanged;
 
+                bool dayCreated = false;
+
                 // Item already has datefolder as parent
                 if (parent.ContentType.Alias.Equals(_options.FolderDocType))
                 {
@@ -85,9 +88,8 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
                         dayChanged = date.Day.ToString("00") != dayFolder.Name;
                     }
 
-                    yearFolder = _contentService.GetById(monthFolder.ParentId);
-
                     // Set item parent to source folder which contains the datefolders for sorting
+                    yearFolder = _contentService.GetById(monthFolder.ParentId);
                     parent = _contentService.GetById(yearFolder.ParentId);
 
                     yearChanged = date.Year.ToString() != yearFolder.Name;
@@ -102,58 +104,44 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
 
                 if (yearChanged || monthChanged || dayChanged)
                 {
-                    IContent newDayFolder = null;
+                    (IContent newYearFolder, bool yearCreated) = yearChanged || yearFolder is null ? GetOrCreateAndPublishDateFolder(_contentService, parent, date.Year.ToString(), content.CreatorId) : (yearFolder, false);
+                    (IContent newMonthFolder, bool monthCreated) = GetOrCreateAndPublishDateFolder(_contentService, newYearFolder, date.Month.ToString("00"), content.CreatorId);
 
-                    IContent newYearFolder = yearChanged || yearFolder is null ? GetOrCreateAndPublishDateFolder(_contentService, parent, date.Year.ToString(), content.CreatorId) : yearFolder;
-                    IContent newMonthFolder = GetOrCreateAndPublishDateFolder(_contentService, newYearFolder, date.Month.ToString("00"), content.CreatorId);
-                    IContent orderParent = newMonthFolder;
-
-                    // Move content to correct folder
                     if (_options.CreateDayFolders)
                     {
-                        newDayFolder = GetOrCreateAndPublishDateFolder(_contentService, newMonthFolder, date.Day.ToString("00"), content.CreatorId);
+                        (IContent newDayFolder, dayCreated) = GetOrCreateAndPublishDateFolder(_contentService, newMonthFolder, date.Day.ToString("00"), content.CreatorId);
                         _contentService.Move(content, newDayFolder.Id);
-                        orderParent = newDayFolder;
                     }
                     else
                     {
                         _contentService.Move(content, newMonthFolder.Id);
                     }
 
-                    // Todo: Check if needed
                     if (content.Published)
                     {
                         _contentService.Save(content);
                         _contentService.Publish(content, ["*"]);
                     }
 
-                    // Clean up old folders if empty
-                    if (dayFolder is not null)
+                    DeleteFolderIfEmpty(dayFolder);
+                    DeleteFolderIfEmpty(monthFolder);
+                    DeleteFolderIfEmpty(yearFolder);
+
+                    if (yearCreated)
                     {
-                        ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, dayFolder, _contentService);
+                        SortChildrenByName(parent, _options.OrderByDescending);
                     }
 
-                    if (monthFolder is not null)
+                    if (monthCreated)
                     {
-                        ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, monthFolder, _contentService);
+                        SortChildrenByName(newYearFolder, _options.OrderByDescending);
                     }
 
-                    if (yearFolder is not null)
+                    if (_options.CreateDayFolders && dayCreated)
                     {
-                        ContentHelper.DeleteFolderIfEmpty(_options.FolderDocType, yearFolder, _contentService);
+                        SortChildrenByName(newMonthFolder, _options.OrderByDescending);
                     }
-
-                    // Sort all content in folders by date
-                    OrderChildrenByDateProperty(orderParent, _options.OrderByDescending, !string.IsNullOrEmpty(_options.ItemDateProperty) ? _options.ItemDateProperty : null);
-
-                    // Sort all folders by name
-                    OrderChildrenByName(parent, _options.OrderByDescending);
-                    OrderChildrenByName(newYearFolder, _options.OrderByDescending);
-                    if (_options.CreateDayFolders)
-                    {
-                        OrderChildrenByName(newMonthFolder, _options.OrderByDescending);
-                    }
-                }                
+                }
             }
         }
 
@@ -172,101 +160,111 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
                 DateTime propertyDate = content.GetValue<DateTime>(propertyAlias);
                 return propertyDate == DateTime.MinValue ? content.CreateDate : propertyDate;
             }
-            else
-            {
-                return content.CreateDate;
-            }
+
+            return content.CreateDate;
         }
 
         /// <summary>
-        /// Gets DateFolder by name if exists, if it not exists than create folder with specified name.
+        /// Gets the existing date folder with the given name under <paramref name="parent"/>, or creates it if none exists.
+        /// Ensures the folder is published before returning.
         /// </summary>
-        /// <param name="contentService"></param>
-        /// <param name="parent"></param>
-        /// <param name="nodeName"></param>
-        /// <param name="currentUserId"></param>
-        /// <returns></returns>
-        private IContent GetOrCreateAndPublishDateFolder(IContentService contentService, IContent parent, string nodeName, int currentUserId)
+        /// <remarks>
+        /// Matches an existing child by both content type alias (<c>_options.FolderDocType</c>) and name; if no
+        /// match is found, a new folder is created.
+        /// </remarks>
+        /// <param name="contentService">The content service used to save and publish the date folder.</param>
+        /// <param name="parent">The parent content node under which the date folder should exist.</param>
+        /// <param name="nodeName">The name of the date folder to find or create (e.g. a year, month, or day segment).</param>
+        /// <param name="currentUserId">The id of the user to attribute the create/save/publish actions to.</param>
+        /// <returns>A tuple containing the date folder's <see cref="IContent"/> and a <see langword="bool"/> indicating whether it was newly created.</returns>
+        private (IContent, bool) GetOrCreateAndPublishDateFolder(IContentService contentService, IContent parent, string nodeName, int currentUserId)
         {
             IContent content = null;
+            var created = false;
+
             var parentChildren = parent.GetAllChildren(_contentService);
 
-            // Get first child of FolderDocType if it exists
             if (parentChildren.Any())
             {
                 content = parentChildren.FirstOrDefault(x => x.ContentType.Alias.Equals(_options.FolderDocType) && x.Name.Equals(nodeName));
             }
 
-            // Create folder if if non exists
             if (content is null)
             {
+                created = true;
                 content = _contentService.Create(nodeName, parent.Key, _options.FolderDocType, currentUserId);
             }
 
             if (!content.Published)
             {
+                //Keep track of content not to retrigger this event for
                 contentService.Save(content, userId: currentUserId);
-                contentService.Publish(content, ["*"], userId: currentUserId); // TODO: 'Only wildcard culture is supported when publishing invariant content types. (Parameter 'cultures')'
-                //contentService.Publish(content, [Thread.CurrentThread.CurrentCulture.IetfLanguageTag], userId: currentUserId);
+                contentService.Publish(content, ["*"], userId: currentUserId);
             }
-            return content;
+
+            return (content, created);
         }
 
         /// <summary>
-        /// Orders children of IContent by name (if name is parsable to number) and adds remaining children after sorted folders
+        /// Sorts the children of a content node by name, either ascending or descending.
+        /// Optimized to only touch children whose <see cref="IContent.SortOrder"/> would actually change,
+        /// rather than resaving every sibling on each pass.
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="orderByDesc"></param>
-        private void OrderChildrenByName(IContent parent, bool orderByDesc)
+        /// <remarks>
+        /// When available, <see href="https://apidocs.umbraco.com/v18/csharp/api/Umbraco.Cms.Core.Services.IContentService.html">IContentService.SortChildren</see>
+        /// should be used instead, since it can reorder without triggering <see cref="ContentSavedNotification"/> for each item.
+        /// </remarks>
+        /// <param name="parent">The parent content node whose direct children should be reordered. If <see langword="null"/>, the method returns without doing anything.</param>
+        /// <param name="descending">If <see langword="true"/>, children are sorted by parsed name in descending order; otherwise ascending.</param>
+        private void SortChildrenByName(IContent parent, bool descending)
         {
+            if (parent is null)
+                return;
+
             try
             {
-                var allChildren = parent.GetAllChildren(_contentService);
+                var children = parent.GetAllChildren(_contentService).ToList();
 
-                var orderedChildren = (orderByDesc
-                    ? allChildren.Where(c => int.TryParse(c.Name, out int i)).OrderByDescending(x => int.Parse(x.Name))
-                    : allChildren.Where(c => int.TryParse(c.Name, out int i)).OrderBy(x => int.Parse(x.Name))).ToList();
+                var ordered = descending
+                    ? children.OrderByDescending(x => ParseName(x.Name)).ToList()
+                    : children.OrderBy(x => ParseName(x.Name)).ToList();
 
-                orderedChildren.AddRange(allChildren.Where(c => !int.TryParse(c.Name, out int i)));
+                var changed = ordered
+                    .Select((child, index) => (child, index))
+                    .Where(x => x.child.SortOrder != x.index)
+                    .ToList();
 
-                _contentService.Sort(orderedChildren);
+                if (changed.Count == 0)
+                    return;
+
+                foreach (var (child, index) in changed)
+                {
+                    child.SortOrder = index;
+                }
+
+                _contentService.Save(changed.Select(x => x.child).ToList());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "DateFolders OrderChildrenByName exception");
+                _logger.LogError(ex, "DateFolders custom sorting failed");
             }
         }
 
-        /// <summary>
-        /// Order children of Icontent by provided date field alias. If not provided, order by CreateDate.
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="orderByDesc"></param>
-        /// <param name="propertyAlias"></param>
-        private void OrderChildrenByDateProperty(IContent parent, bool orderByDesc, string propertyAlias = "")
+        private static int ParseName(string name)
         {
-            try
-            {
-                var allChildren = parent.GetAllChildren(_contentService);
+            return int.TryParse(name, out var value)
+                ? value
+                : int.MaxValue;
+        }
 
-                if (!string.IsNullOrEmpty(propertyAlias))
-                {
-                    var orderedChildren = (orderByDesc
-                        ? allChildren.Where(c => c.HasProperty(propertyAlias)).OrderByDescending(c => GetItemDate(c, propertyAlias))
-                        : allChildren.Where(c => c.HasProperty(propertyAlias)).OrderBy(c => GetItemDate(c, propertyAlias))).ToList();
-
-                    orderedChildren.AddRange(allChildren.Where(c => !c.HasProperty(propertyAlias)));
-                    _contentService.Sort(orderedChildren);
-                }
-                else
-                {
-                    var orderedChildren = orderByDesc ? allChildren.OrderByDescending(x => x.CreateDate) : allChildren.OrderBy(x => x.CreateDate);
-                    _contentService.Sort(orderedChildren);
-                }
-            }
-            catch (Exception ex)
+        // Inlined replacement for the package's internal ContentHelper.DeleteFolderIfEmpty,
+        // which is not accessible outside the package's own assembly.
+        private void DeleteFolderIfEmpty(IContent folder)
+        {
+            if (folder is null) return;
+            if (folder.ContentType.Alias == _options.FolderDocType && !_contentService.HasChildren(folder.Id))
             {
-                _logger.LogError(ex, "DateFolders OrderChildrenByDateProperty exception");
+                _contentService.MoveToRecycleBin(folder);
             }
         }
 
@@ -275,6 +273,7 @@ namespace Infocaster.Umbraco.DateFolders.Composers.NotificatonHandlers
             if (!_options.AllowedParentIds.Any() && !_options.AllowedParentDocTypes.Any()) return true;
 
             IContent parentContentItem = _contentService.GetAncestors(content).Reverse().FirstOrDefault(x => !x.ContentType.Alias.Equals(_options.FolderDocType));
+            if (parentContentItem is null) return false;
             if (_options.AllowedParentIds.Any() && _options.AllowedParentIds.Contains(parentContentItem.Key.ToString())) return true;
             if (_options.AllowedParentDocTypes.Any() && _options.AllowedParentDocTypes.Contains(parentContentItem.ContentType.Alias)) return true;
 
