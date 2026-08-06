@@ -38,6 +38,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms.Core" Version="17" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="18.1.0" />
   </ItemGroup>
 </Project>

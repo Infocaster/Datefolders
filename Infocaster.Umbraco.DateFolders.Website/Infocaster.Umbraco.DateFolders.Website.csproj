@@ -6,8 +6,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Umbraco.Cms" Version="17.0.0" />
-		<PackageReference Include="Umbraco.TheStarterKit" Version="17.0.0" />
+		<PackageReference Include="Umbraco.Cms" Version="18.1.0" />
+		<PackageReference Include="Umbraco.TheStarterKit" Version="18.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,10 +29,7 @@
 		<Folder Include="wwwroot\media\" />
 	</ItemGroup>
 
-	<!-- Keep this as false if ModelsBuilder mode is InMemoryAuto -->
 	<PropertyGroup>
-		<RazorCompileOnBuild>false</RazorCompileOnBuild>
-		<RazorCompileOnPublish>false</RazorCompileOnPublish>
 		<UserSecretsId>63fa365f-b593-4121-8aa0-535c9db270b7</UserSecretsId>
 	</PropertyGroup>
 </Project>

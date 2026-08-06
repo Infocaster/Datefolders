@@ -11,7 +11,14 @@ namespace Infocaster.Umbraco.DateFolders.Extensions
             int childCount = contentService.CountChildren(item.Id);
             if (childCount > 0)
             {
-                return contentService.GetPagedChildren(item.Id, 0, childCount, out long totalChildren);
+                return contentService.GetPagedChildren(
+                    item.Id,
+                    0,
+                    childCount,
+                    out long _,
+                    propertyAliases: null,
+                    filter: null,
+                    ordering: null);
             }
             else
             {
